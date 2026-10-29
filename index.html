@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A beginner-friendly IT helpdesk ticket management portfolio project.">
+  <title>IT Helpdesk Ticket System</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="IT Helpdesk home">
+      <span class="brand-mark">IT</span>
+      <span>Helpdesk <small>Ticket System</small></span>
+    </a>
+    <span class="demo-label"><span class="status-dot"></span> Portfolio demo</span>
+  </header>
+
+  <main class="container">
+    <section class="welcome">
+      <div>
+        <p class="eyebrow">IT SERVICE MANAGEMENT</p>
+        <h1>Support dashboard</h1>
+        <p class="muted">Track technical issues from first report to resolution.</p>
+      </div>
+      <button class="primary-button" id="newTicketButton" type="button">＋ New ticket</button>
+    </section>
+
+    <section class="stats" aria-label="Ticket summary">
+      <article class="stat-card">
+        <span class="stat-icon blue">▤</span>
+        <div><p>Total tickets</p><strong id="totalCount">0</strong></div>
+      </article>
+      <article class="stat-card">
+        <span class="stat-icon orange">◷</span>
+        <div><p>Open</p><strong id="openCount">0</strong></div>
+      </article>
+      <article class="stat-card">
+        <span class="stat-icon purple">⚙</span>
+        <div><p>In progress</p><strong id="progressCount">0</strong></div>
+      </article>
+      <article class="stat-card">
+        <span class="stat-icon green">✓</span>
+        <div><p>Resolved</p><strong id="resolvedCount">0</strong></div>
+      </article>
+    </section>
+
+    <section class="panel">
+      <div class="panel-heading">
+        <div>
+          <h2>Support tickets</h2>
+          <p class="muted">Review and manage reported issues.</p>
+        </div>
+        <button id="resetDemoButton" class="text-button" type="button">Reset demo data</button>
+      </div>
+
+      <div class="filters">
+        <label class="search-box">
+          <span aria-hidden="true">⌕</span>
+          <input id="searchInput" type="search" placeholder="Search tickets..." aria-label="Search tickets">
+        </label>
+        <label class="filter-label">
+          <span class="sr-only">Filter by status</span>
+          <select id="statusFilter">
+            <option value="all">All statuses</option>
+            <option value="Open">Open</option>
+            <option value="In Progress">In progress</option>
+            <option value="Resolved">Resolved</option>
+          </select>
+        </label>
+        <label class="filter-label">
+          <span class="sr-only">Filter by priority</span>
+          <select id="priorityFilter">
+            <option value="all">All priorities</option>
+            <option value="High">High priority</option>
+            <option value="Medium">Medium priority</option>
+            <option value="Low">Low priority</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Ticket</th><th>Requester</th><th>Category</th>
+              <th>Priority</th><th>Status</th><th>Date created</th><th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="ticketTableBody"></tbody>
+        </table>
+      </div>
+      <div id="emptyState" class="empty-state" hidden>
+        <span class="empty-icon">▤</span>
+        <h3>No tickets found</h3>
+        <p>Try changing your search or create a new support ticket.</p>
+        <button class="primary-button" id="emptyNewTicketButton" type="button">＋ Create ticket</button>
+      </div>
+      <p class="table-footnote" id="ticketCountLabel">Showing 0 tickets</p>
+    </section>
+
+    <footer>
+      <span>IT Helpdesk Ticket System</span>
+      <span>Built with HTML, CSS &amp; JavaScript · Portfolio project</span>
+    </footer>
+  </main>
+
+  <dialog id="ticketDialog">
+    <form id="ticketForm">
+      <div class="dialog-heading">
+        <div>
+          <p class="eyebrow">SUPPORT REQUEST</p>
+          <h2 id="dialogTitle">Create new ticket</h2>
+        </div>
+        <button class="close-button" id="closeDialogButton" type="button" aria-label="Close form">×</button>
+      </div>
+      <input type="hidden" id="editingTicketId">
+      <label for="ticketTitle">Issue title <span class="required">*</span></label>
+      <input id="ticketTitle" name="ticketTitle" maxlength="90" required placeholder="e.g. Laptop cannot connect to Wi-Fi">
+
+      <div class="form-grid">
+        <div>
+          <label for="requester">Requester name <span class="required">*</span></label>
+          <input id="requester" name="requester" maxlength="60" required placeholder="e.g. Alex Mokoena">
+        </div>
+        <div>
+          <label for="category">Category</label>
+          <select id="category" name="category">
+            <option>Hardware</option><option>Software</option><option>Network</option>
+            <option>Email &amp; accounts</option><option>Printer</option><option>Other</option>
+          </select>
+        </div>
+        <div>
+          <label for="priority">Priority</label>
+          <select id="priority" name="priority">
+            <option>Low</option><option selected>Medium</option><option>High</option>
+          </select>
+        </div>
+        <div>
+          <label for="status">Status</label>
+          <select id="status" name="status">
+            <option>Open</option><option>In Progress</option><option>Resolved</option>
+          </select>
+        </div>
+      </div>
+
+      <label for="description">Issue description <span class="required">*</span></label>
+      <textarea id="description" name="description" rows="4" maxlength="1000" required placeholder="Describe the problem and any troubleshooting already tried."></textarea>
+      <p class="form-note">Demo only: do not enter real passwords, sensitive personal information, or confidential company data.</p>
+      <div class="form-actions">
+        <button class="secondary-button" id="cancelDialogButton" type="button">Cancel</button>
+        <button class="primary-button" type="submit" id="saveTicketButton">Save ticket</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
